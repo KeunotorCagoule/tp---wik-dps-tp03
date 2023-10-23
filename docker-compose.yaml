@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+
+  api:
+    build: 
+      context: .
+      dockerfile: multistage.dockerfile
+
+    expose:
+     - '8080'
+
+    deploy:
+      replicas: 4
+
+    restart: always
+
+    environment:
+      - PING_LISTEN_PORT=8080
+
+  proxy:
+    image: nginx:latest
+
+    volumes:
+      - ./proxy.conf:/etc/nginx/conf.d/proxy.conf:ro
+
+    ports:
+      - 8080:8080
+
+    depends_on:
+      - api

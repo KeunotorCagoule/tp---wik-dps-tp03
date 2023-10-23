@@ -1,7 +1,9 @@
+import os from "os";
 import http from "http";
 
 const myServer = http.createServer((req, res) => {
   if (req.url === "/ping" && req.method === "GET") {
+    console.log("Ping received on " + os.hostname());
     res.write(JSON.stringify(req.headers));
     res.end();
   } else {
